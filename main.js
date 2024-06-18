@@ -31,6 +31,7 @@ class LandingPage{
         this.footer = document.querySelector('.l-footer');
         this.texts = document.querySelectorAll('.am-text div');
         this.newsletterForm = document.querySelector('.newsletter-form');
+        this.landinglogo = document.querySelector('.l-nav-logo');
         this.init();
     }
 
@@ -43,6 +44,7 @@ class LandingPage{
         this.initSplittingC()
         this.initPageLoad();
         this.initLinkHovers();
+        this.initLogoAnim();
     }
 
     initSplittingC() {
@@ -62,6 +64,33 @@ class LandingPage{
         //Get all the characters and move them off the screen
         this.chars = results.map((result) => result.chars);
         gsap.set(this.chars, {yPercent: 120});
+    }
+
+    initLogoAnim(){
+        /*
+        const tlN = gsap.timeline({defaults: {ease: 'expo.inOut'}});
+        tlN.to(this.landinglogo.querySelector('.dot'), {fill: 'currentColor', duration: 0.2})
+            .to(this.landinglogo.querySelectorAll('.sx'), {x: '-2.26em', duration: 1}, "<")
+            .to(this.landinglogo.querySelectorAll('.sh'), {fill: 'transparent', duration: 0.2}, "<")
+
+         */
+
+
+        const tlM = gsap.timeline({paused:true,defaults: {ease: 'expo.out'}});
+        tlM.fromTo(this.landinglogo.querySelector('.dot'),{fill: 'currentColor'}, {fill: 'transparent', duration: 0.2, ease: 'expo.out'})
+            .fromTo(this.landinglogo.querySelectorAll('.sh'),{fill: 'transparent', opacity: 0}, {fill: 'currentColor', opacity: 1, duration: 0.5, ease: 'expo.out'}, "<")
+            .to(this.landinglogo.querySelectorAll('.sx'), {x: '0ch', duration: 1, ease: 'expo.out'}, "<")
+
+
+        this.landinglogo.addEventListener('mouseover', () => {
+            tlM.timeScale(1)
+            tlM.play()
+        })
+
+        this.landinglogo.addEventListener('mouseout', () => {
+            tlM.timeScale(1.5)
+            tlM.reverse();
+        })
     }
 
     initPageLoad(){
