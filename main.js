@@ -29,17 +29,20 @@ class LandingPage{
         this.landingHeader = document.querySelector('.l-header');
         this.lSpans =[...document.querySelectorAll('.landing-info span')];
         this.footer = document.querySelector('.l-footer');
-        this.texts = document.querySelectorAll('.am-text div');
+        //this.texts = document.querySelectorAll('.am-text div');
         this.newsletterForm = document.querySelector('.newsletter-form');
+        this.newsletterFormWrapper = document.querySelector('.newsletter-form-wrapper');
         this.landinglogo = document.querySelector('.l-nav-logo');
+        this.video = document.querySelector('video');
         this.init();
     }
 
     init(){
-        this.newsletterForm.addEventListener('submit', (e) => {
+        this.newsletterForm.addEventListener('submit', () => {
+            console.log('submitted')
             setTimeout(()=>{
                 this.displaySuccessMessage();
-            }, 2700)
+            }, 2000)
         });
         this.initSplittingC()
         this.initPageLoad();
@@ -77,9 +80,8 @@ class LandingPage{
 
 
         const tlM = gsap.timeline({paused:true,defaults: {ease: 'expo.out'}});
-        tlM.fromTo(this.landinglogo.querySelector('.dot'),{fill: 'currentColor'}, {fill: 'transparent', duration: 0.2, ease: 'expo.out'})
-            .fromTo(this.landinglogo.querySelectorAll('.sh'),{fill: 'transparent', opacity: 0}, {fill: 'currentColor', opacity: 1, duration: 0.5, ease: 'expo.out'}, "<")
-            .to(this.landinglogo.querySelectorAll('.sx'), {x: '0ch', duration: 1, ease: 'expo.out'}, "<")
+        tlM.fromTo(this.landinglogo.querySelectorAll('.sh'),{fill: 'transparent', opacity: 0}, {fill: 'currentColor', opacity: 1, duration: 0.5, ease: 'expo.out'}, "<")
+            .from(this.landinglogo.querySelectorAll('.sh'), {x: '-1ch', duration: 1, ease: 'expo.out'}, "<")
 
 
         this.landinglogo.addEventListener('mouseover', () => {
@@ -88,21 +90,29 @@ class LandingPage{
         })
 
         this.landinglogo.addEventListener('mouseout', () => {
-            tlM.timeScale(1.5)
+            tlM.timeScale(1.25)
             tlM.reverse();
         })
     }
 
     initPageLoad(){
         const tl = gsap.timeline();
+        this.videoPlayed = false;
         tl.to(this.footer.querySelectorAll('.char'), {yPercent: 0, duration: 2, ease: 'power4.out'})
-            .to([this.landingContent, this.landingHeader], {opacity: 1, duration: 2, ease: 'expo.out'}, "<")
+            .to([this.landingHeader], {opacity: 1, duration: 2, ease: 'expo.out'}, "<")
 
+        this.video.addEventListener('timeupdate', () => {
+            if (Math.floor(this.video.currentTime) === 5 && !this.videoPlayed){
+                gsap.to(this.newsletterForm, {opacity: 1, duration: 1})
+            }
+        });
 
+        /*
         const duration = 1; // Duration for each fade in/out
         const delay = 1; // Delay before fading to the next text
 
         const timeline = gsap.timeline({repeat: -1});
+
 
         this.texts.forEach((text, index) => {
             const nextIndex = (index + 1) % this.texts.length;
@@ -110,15 +120,17 @@ class LandingPage{
                 .to(text, {opacity: 0, duration: duration}, `+=${delay}`)
                 .set(this.texts[nextIndex], {opacity: 0}, `+=${delay - duration}`);
         });
+
+         */
     }
 
 
     displaySuccessMessage(){
         const tl2 = gsap.timeline({defaults: {ease: 'expo.out'}});
-        tl2.to(this.landingContent, {opacity: 0, duration: 0.4})
-            .to(this.landingInfo, {opacity: 1, display: 'flex', duration: 0.4})
-            .to(this.landingInfo.querySelectorAll('.char'), {yPercent: 0, duration: 1.75, ease: 'power4.out'})
-            .to(this.lSpans, {color: 'white', stagger: {each: 0.15, from: 'start'}, ease: 'expo.out'});
+        tl2.to(this.newsletterFormWrapper, {opacity: 0, duration: 1})
+            //.to(this.landingInfo, {opacity: 1, display: 'flex', duration: 0.4})
+            //.to(this.landingInfo.querySelectorAll('.char'), {yPercent: 0, duration: 1.5, ease: 'power4.out'})
+            //.to(this.lSpans, {color: 'white', stagger: {each: 0.125, from: 'start'}, ease: 'expo.out'});
     }
 
     initLinkHovers(){
