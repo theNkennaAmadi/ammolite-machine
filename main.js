@@ -117,8 +117,8 @@ class LandingPage{
         const tl2 = gsap.timeline({defaults: {ease: 'expo.out'}});
         tl2.to(this.landingContent, {opacity: 0, duration: 0.4})
             .to(this.landingInfo, {opacity: 1, display: 'flex', duration: 0.4})
-            .to(this.landingInfo.querySelectorAll('.char'), {yPercent: 0, duration: 1.75, ease: 'power4.out'})
-            .to(this.lSpans, {color: 'white', stagger: {each: 0.15, from: 'start'}, ease: 'expo.out'});
+            .to(this.landingInfo.querySelectorAll('.char'), {yPercent: 0, duration: 1.5, ease: 'power4.out'})
+            .to(this.lSpans, {color: 'white', stagger: {each: 0.125, from: 'start'}, ease: 'expo.out'});
     }
 
     initLinkHovers(){
