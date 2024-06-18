@@ -39,7 +39,7 @@ class LandingPage{
         this.newsletterForm.addEventListener('submit', (e) => {
             setTimeout(()=>{
                 this.displaySuccessMessage();
-            }, 3000)
+            }, 2700)
         });
         this.initSplittingC()
         this.initPageLoad();
@@ -115,10 +115,10 @@ class LandingPage{
 
     displaySuccessMessage(){
         const tl2 = gsap.timeline({defaults: {ease: 'expo.out'}});
-        tl2.to(this.landingContent, {opacity: 0, duration: 0.5})
-            .to(this.landingInfo, {opacity: 1, display: 'flex', duration: 0.5})
-            .to(this.landingInfo.querySelectorAll('.char'), {yPercent: 0, duration: 2, ease: 'power4.out'})
-            .to(this.lSpans, {color: 'white', stagger: {each: 0.2, from: 'start'}, ease: 'expo.out'});
+        tl2.to(this.landingContent, {opacity: 0, duration: 0.4})
+            .to(this.landingInfo, {opacity: 1, display: 'flex', duration: 0.4})
+            .to(this.landingInfo.querySelectorAll('.char'), {yPercent: 0, duration: 1.75, ease: 'power4.out'})
+            .to(this.lSpans, {color: 'white', stagger: {each: 0.15, from: 'start'}, ease: 'expo.out'});
     }
 
     initLinkHovers(){
