@@ -39,7 +39,6 @@ class LandingPage{
 
     init(){
         this.newsletterForm.addEventListener('submit', () => {
-            console.log('submitted')
             setTimeout(()=>{
                 this.displaySuccessMessage();
             }, 2000)
