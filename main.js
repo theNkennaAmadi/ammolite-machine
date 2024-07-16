@@ -33,21 +33,30 @@ class LandingPage{
         this.newsletterForm = document.querySelector('.newsletter-form');
         this.newsletterFormWrapper = document.querySelector('.newsletter-form-wrapper');
         this.landinglogo = document.querySelector('.l-nav-logo');
-        this.video = document.querySelector('video');
+        this.video = document.querySelector('.embed.is-1').querySelector('video');
+        this.video2 = document.querySelector('.embed.is-2').querySelector('video');
         this.init();
     }
 
     init(){
         this.newsletterForm.addEventListener('submit', () => {
+
             setTimeout(()=>{
+                this.video2.play();
                 this.displaySuccessMessage();
-            }, 2000)
+            }, 1500)
         });
         this.initSplittingC()
         this.initPageLoad();
         this.initLinkHovers();
         this.initLogoAnim();
+
+        //console.log(this.video)
+
     }
+
+
+
 
     initSplittingC() {
         //Initialize Splitting, split the text into characters and get the results
@@ -103,6 +112,9 @@ class LandingPage{
         this.video.addEventListener('timeupdate', () => {
             if (Math.floor(this.video.currentTime) === 5 && !this.videoPlayed){
                 gsap.to(this.newsletterForm, {opacity: 1, duration: 1})
+            }
+            if(this.video.currentTime === this.video.duration){
+                gsap.to('.embed.is-2', {opacity: 1, duration: 1})
             }
         });
 
