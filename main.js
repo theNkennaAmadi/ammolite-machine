@@ -32,7 +32,7 @@ class LandingPage{
         //this.texts = document.querySelectorAll('.am-text div');
         this.newsletterForm = document.querySelector('.newsletter-form');
         this.newsletterFormWrapper = document.querySelector('.newsletter-form-wrapper');
-        this.landinglogo = document.querySelector('.l-nav-logo');
+
         this.video = document.querySelector('.embed.is-1').querySelector('video');
         this.video2 = document.querySelector('.embed.is-2').querySelector('video');
         this.init();
