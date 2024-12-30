@@ -58,6 +58,8 @@ class LandingPage{
 
 
 
+
+
     initSplittingC() {
         //Initialize Splitting, split the text into characters and get the results
         const targets = [...this.container.querySelectorAll("[split-target]")];
