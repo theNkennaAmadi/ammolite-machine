@@ -84,6 +84,25 @@ class Case{
             });
         });
 
+        let mm = gsap.matchMedia();
+        const mobMenu = this.container.querySelector('.mob-menu');
+        let menuOpen = false;
+        mm.add("(max-width: 479px)", () => {
+            const toggleMenu = () => {
+                menuOpen ? gsap.to('.nav-main-links-wrapper', {opacity: 0}) : gsap.to('.nav-main-links-wrapper', {opacity: 1});
+                menuOpen = !menuOpen;
+            };
+
+            mobMenu.addEventListener('click', toggleMenu);
+
+            return () => {
+                if(!menuOpen){
+                    mobMenu.click()
+                }
+                mobMenu.removeEventListener('click', toggleMenu);
+            };
+        });
+
     }
 
     setupTextAnimations() {

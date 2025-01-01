@@ -93,6 +93,27 @@ class Case{
             });
         });
 
+
+        let mm = gsap.matchMedia();
+        const mobMenu = this.container.querySelector('.mob-menu');
+        let menuOpen = false;
+        mm.add("(max-width: 479px)", () => {
+            const toggleMenu = () => {
+                menuOpen ? gsap.to('.nav-main-links-wrapper', {opacity: 0}) : gsap.to('.nav-main-links-wrapper', {opacity: 1});
+                menuOpen = !menuOpen;
+            };
+
+            mobMenu.addEventListener('click', toggleMenu);
+
+            return () => {
+                if(!menuOpen){
+                    mobMenu.click()
+                }
+                mobMenu.removeEventListener('click', toggleMenu);
+            };
+        });
+
+
     }
 
     setupTextAnimations() {
@@ -210,6 +231,8 @@ class Case{
                 this.wrapper.appendChild(defaultWrapper);
             });
         }
+
+        this.visualReveal();
     }
 
     addVisualsToWrapper(wrapper, layoutName) {
@@ -229,6 +252,22 @@ class Case{
         for (let i = 0; i < count && this.visuals.length > 0; i++) {
             wrapper.appendChild(this.visuals.shift());
         }
+    }
+
+    visualReveal(){
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                const intersecting = entry.isIntersecting
+                if(intersecting){
+                    gsap.from(entry.target.querySelectorAll('.work-visual-c'), {opacity:0, duration: 2, ease: 'expo.inOut'})
+                    observer.unobserve(entry.target)
+                }
+            })
+        })
+
+        this.container.querySelectorAll(".work-visual-grid").forEach((visual) => {
+            observer.observe(visual)
+        })
     }
 
     setupVideoControls() {
@@ -313,9 +352,6 @@ class Case{
             this.video.currentTime = newTime;
         });
 
-        this.video.addEventListener('timeupdate', () => {
-            console.log(this.video.currentTime)
-        })
     }
 
     initLogoAnim(){
