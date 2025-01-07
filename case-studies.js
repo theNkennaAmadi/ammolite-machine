@@ -84,6 +84,20 @@ class Case{
             });
         });
 
+        const projects = document.querySelectorAll('.work-item-grid')
+        projects.forEach(project=>{
+                const linkText = project.querySelector('.work-header').querySelectorAll('.char')
+                const tllink = gsap.timeline({paused: true});
+                tllink.to(linkText, {yPercent: -100, duration: 0.5, ease: 'power4.out', stagger: {amount: 0.1}});
+                project.addEventListener('mouseover', () => {
+                    tllink.play()
+                });
+
+                project.addEventListener('mouseout', () => {
+                    tllink.reverse()
+                });
+        })
+
         let mm = gsap.matchMedia();
         const mobMenu = this.container.querySelector('.mob-menu');
         let menuOpen = false;
