@@ -167,7 +167,7 @@ class Home{
             if (Math.floor(this.video.currentTime) === 5 && !this.videoPlayed){
                 //gsap.to(this.newsletterForm, {opacity: 1, duration: 1})
             }
-            if (Math.floor(this.video.currentTime) === 5 ){
+            if (Math.floor(this.video.currentTime) === 3 ){
                 //gsap.to(this.newsletterForm, {opacity: 1, duration: 1})
 
                // gsap.from('.home-line', {clipPath: 'inset(0% 100% 0% 0%)', duration: 2.5, ease: 'expo.out'})
