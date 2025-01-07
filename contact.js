@@ -154,6 +154,20 @@ class Contact{
             });
         })
 
+        const locationText =this.container.querySelectorAll('.grey')
+        locationText.forEach(text=>{
+                const lineText = text.querySelectorAll('.char')
+                const tl = gsap.timeline({paused: true});
+                tl.to(lineText, {yPercent: -100, duration: 0.8, ease: 'power4.out', stagger: {amount: 0.15}});
+                text.addEventListener('mouseover', () => {
+                    tl.play()
+                });
+
+                text.addEventListener('mouseout', () => {
+                    tl.reverse()
+                });
+        })
+        /*
         const addText = this.container.querySelector('.grey').querySelectorAll('.char')
         const tl2 = gsap.timeline({paused: true});
         tl2.to(addText, {yPercent: -100, duration: 0.8, ease: 'power4.out', stagger: {amount: 0.15}})
@@ -163,6 +177,8 @@ class Contact{
         this.container.querySelector('.grey').addEventListener('mouseout', () => {
             tl2.reverse()
         })
+
+         */
     }
 
     initLinkHovers(){
