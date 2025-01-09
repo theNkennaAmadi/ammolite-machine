@@ -144,7 +144,7 @@ class Contact{
         this.socialBlocks.forEach(line => {
             const lineText = line.querySelectorAll('.char')
             const tl = gsap.timeline({paused: true});
-            tl.to(lineText, {yPercent: -100, duration: 0.5, ease: 'power4.out', stagger: {amount: 0.1}});
+            tl.fromTo(lineText,{yPercent: 0},  {yPercent: -100, duration: 0.5, ease: 'power4.out', stagger: {amount: 0.1}});
             line.addEventListener('mouseover', () => {
                 tl.play()
             });
@@ -158,7 +158,7 @@ class Contact{
         locationText.forEach(text=>{
                 const lineText = text.querySelectorAll('.char')
                 const tl = gsap.timeline({paused: true});
-                tl.to(lineText, {yPercent: -100, duration: 0.8, ease: 'power4.out', stagger: {amount: 0.15}});
+                tl.fromTo(lineText, {yPercent:0}, {yPercent: -100, duration: 0.8, ease: 'power4.out', stagger: {amount: 0.15}});
                 text.addEventListener('mouseover', () => {
                     tl.play()
                 });
