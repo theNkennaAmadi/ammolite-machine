@@ -83,7 +83,7 @@ class Case{
         links.forEach(link => {
             const linkText = link.querySelectorAll('.char')
             const tllink = gsap.timeline({paused: true});
-            tllink.to(linkText, {yPercent: -100, duration: 0.5, ease: 'power4.out', stagger: {amount: 0.1}});
+            tllink.fromTo(linkText,{yPercent:0}, {yPercent: -100, duration: 0.5, ease: 'power4.out', stagger: {amount: 0.1}});
             link.addEventListener('mouseover', () => {
                 tllink.play()
             });
@@ -114,6 +114,22 @@ class Case{
         });
 
 
+    }
+
+    setupTimelineNavigation() {
+        this.durationWrapper.addEventListener('click', (event) => {
+            const rect = this.durationWrapper.getBoundingClientRect();
+            const clickPosition = event.clientX - rect.left;
+            const percentageClicked = clickPosition / rect.width;
+            const newTime = this.video.duration * percentageClicked;
+
+            this.video.currentTime = newTime;
+
+            // If the video is paused, you might want to start playing it
+            if (this.video.paused) {
+                this.video.play()
+            }
+        });
     }
 
     setupTextAnimations() {

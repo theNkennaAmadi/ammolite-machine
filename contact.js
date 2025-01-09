@@ -186,7 +186,7 @@ class Contact{
         links.forEach(link => {
             const linkText = link.querySelectorAll('.char')
             const tllink = gsap.timeline({paused: true});
-            tllink.to(linkText, {yPercent: -100, duration: 0.5, ease: 'power4.out', stagger: {amount: 0.1}});
+            tllink.fromTo(linkText, {yPercent:0}, {yPercent: -100, duration: 0.5, ease: 'power4.out', stagger: {amount: 0.1}});
             link.addEventListener('mouseover', () => {
                 tllink.play()
             });
