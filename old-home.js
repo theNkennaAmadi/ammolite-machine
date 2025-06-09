@@ -15,12 +15,13 @@ class Home{
     }
 
     init(){
+        this.initPageLoad()
         gsap.to('.main', {visibility: 'visible', opacity: 1})
         gsap.to('.page-wrapper', {visibility: 'visible', opacity: 1})
 
+
         this.splitText()
-        this.initLenis() // Initialize Lenis first
-        this.initPageLoad() // Then check for video state
+        this.initLenis()
         this.initLinkHovers()
         this.initLinkHovers2()
         this.initLogoAnim();
@@ -44,14 +45,12 @@ class Home{
     }
 
     initLenis(){
-        this.lenis = new Lenis({ smooth: true });
-        this.lenis.on('scroll', ScrollTrigger.update)
+        const lenis = new Lenis({ smooth: true });
+        lenis.on('scroll', ScrollTrigger.update)
         gsap.ticker.add((time)=>{
-            this.lenis.raf(time * 1000)
+            lenis.raf(time * 1000)
         })
         gsap.ticker.lagSmoothing(0)
-        this.lenis.scrollTo(0)
-        this.lenis.stop();
     }
 
     splitText() {
@@ -80,7 +79,7 @@ class Home{
         links.forEach(link => {
             const linkText = link.querySelectorAll('.char')
             const tllink = gsap.timeline({paused: true});
-            tllink.fromTo(linkText, {yPercent:0}, {yPercent: -100, duration: 0.5, ease: 'power4.out', stagger: {amount: 0.1}});
+            tllink.fromTo(linkText,{yPercent:0}, {yPercent: -100, duration: 0.5, ease: 'power4.out', stagger: {amount: 0.1}});
             link.addEventListener('mouseover', () => {
                 tllink.play()
             });
@@ -88,39 +87,6 @@ class Home{
             link.addEventListener('mouseout', () => {
                 tllink.reverse()
             });
-        });
-
-        const projects = document.querySelectorAll('.work-item-grid')
-        projects.forEach(project=>{
-            const linkText = project.querySelector('.work-header').querySelectorAll('.char')
-            const tllink = gsap.timeline({paused: true});
-            tllink.fromTo(linkText,{yPercent: 0}, {yPercent: -100, duration: 0.5, ease: 'power4.out', stagger: {amount: 0.1}});
-            project.addEventListener('mouseover', () => {
-                tllink.play()
-            });
-
-            project.addEventListener('mouseout', () => {
-                tllink.reverse()
-            });
-        })
-
-        let mm = gsap.matchMedia();
-        const mobMenu = this.container.querySelector('.mob-menu');
-        let menuOpen = false;
-        mm.add("(max-width: 479px)", () => {
-            const toggleMenu = () => {
-                menuOpen ? gsap.to('.nav-main-links-wrapper', {opacity: 0}) : gsap.to('.nav-main-links-wrapper', {opacity: 1});
-                menuOpen = !menuOpen;
-            };
-
-            mobMenu.addEventListener('click', toggleMenu);
-
-            return () => {
-                if(!menuOpen){
-                    mobMenu.click()
-                }
-                mobMenu.removeEventListener('click', toggleMenu);
-            };
         });
 
     }
@@ -196,75 +162,28 @@ class Home{
 
     initPageLoad(){
         this.videoPlayed = false;
-        this.videoInfoHidden = false; // Flag to ensure video info is only hidden once
-
-        // Check if video has already been played in this session
-        const videoAlreadyPlayed = sessionStorage.getItem('videoIntroPlayed') === 'true';
-
-        if (videoAlreadyPlayed) {
-            // Skip video intro and go straight to main content
-            this.skipVideoIntro();
-            return;
-        }
-
-        // Handle video errors (e.g., video cannot be played)
-        this.video.addEventListener('error', () => {
-            this.handleVideoFallback();
-        });
-
-        // Handle case where video cannot load or play
-        this.video.addEventListener('loadstart', () => {
-            // Set a timeout as fallback in case video doesn't load
-            setTimeout(() => {
-                if (this.video.readyState === 0 || this.video.paused) {
-                    this.handleVideoFallback();
-                }
-            }, 3000); // Wait 3 seconds before falling back
-        });
 
         this.video.addEventListener('timeupdate', () => {
-            if (Math.floor(this.video.currentTime) === 4 && !this.videoInfoHidden){
-                this.hideVideoInfoAndStartScroll();
+            if (Math.floor(this.video.currentTime) === 5 && !this.videoPlayed){
+                //gsap.to(this.newsletterForm, {opacity: 1, duration: 1})
+            }
+            if (Math.floor(this.video.currentTime) === 3 ){
+                //gsap.to(this.newsletterForm, {opacity: 1, duration: 1})
+
+               // gsap.from('.home-line', {clipPath: 'inset(0% 100% 0% 0%)', duration: 2.5, ease: 'expo.out'})
+                gsap.to('.home-menu-link', {opacity: 1, duration: 1, pointerEvents: 'auto'})
+
             }
             if(this.video.currentTime === this.video.duration){
-                console.log('video played')
                 gsap.to('.embed.is-2', {opacity: 1, duration: 1})
             }
         });
-    }
 
-    hideVideoInfoAndStartScroll() {
-        if (this.videoInfoHidden) return; // Prevent multiple calls
+        this.video.addEventListener('ended', () => {
+            gsap.set('.embed.is-2', {opacity: 1, duration: 1})
+            this.video2.play();
+        });
 
-        this.videoInfoHidden = true;
-
-        // Store the state in sessionStorage
-        sessionStorage.setItem('videoIntroPlayed', 'true');
-
-        gsap.to('.am-video-info', {opacity: 0, display: 'none', duration: 0.75});
-        this.lenis.start();
-    }
-
-    handleVideoFallback() {
-        if (this.videoInfoHidden) return; // Prevent multiple calls
-
-        console.log('Video cannot be played, falling back to manual start');
-        this.hideVideoInfoAndStartScroll();
-    }
-
-    skipVideoIntro() {
-        // Immediately hide video info and start scroll without playing video
-        gsap.set('.am-video-info', {opacity: 0, display: 'none'});
-        gsap.set('.embed.is-1', {opacity: 0, display: 'none'}); // Hide first video
-        gsap.set('.embed.is-2', {opacity: 1}); // Show second video immediately
-
-        // Safety check to ensure lenis is initialized before calling start()
-        if (this.lenis) {
-            this.lenis.start();
-        }
-
-        this.videoInfoHidden = true;
-        console.log('Skipped video intro - already played in this session');
     }
 
 }
